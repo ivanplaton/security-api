@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: backend-security-app
-    ports:
-      - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/security_db
       SPRING_DATASOURCE_USERNAME: secuser
@@ -14,9 +12,11 @@ services:
       # KEYCLOAK INTEGRATION SETTINGS
       KEYCLOAK_ENABLED: true
       KEYCLOAK_RESOURCE: project-million-api
-      KEYCLOAK_HOST: http://keycloak:8080
+      KEYCLOAK_HOST: http://keycloak:8081
       KEYCLOAK_ADMIN_REALM: master
       KEYCLOAK_CUSTOMER_REALM: customer
+    ports:
+      - "8080:8080"
     depends_on:
       - db
       - keycloak
@@ -45,7 +45,7 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: secpassword
     ports:
-      - "8081:8080"
+      - "8081:8081"
     command: ["start-dev"]
     depends_on:
       - keycloak-db
